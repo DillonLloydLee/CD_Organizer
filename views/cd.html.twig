@@ -5,8 +5,20 @@
     </head>
     <body>
         <div class="container">
+            <h1>Welcome to CD Organizer</h1>
             <a href="/new_cd" class="btn btn-primary">Add CD</a>
             <a href="/searchbyartist" class="btn btn-primary">Search by Artist</a>
+            <!-- List all inputed CDs -->
+            {% if cds is not empty %}
+                <p>Your CDs:</p>
+                {% for cd in cds %}
+                    <ul>
+                        <li>{{ cd.artist }}</li>
+                        <li>{{ cd.title }}</li>
+                        <li>{{ cd.price}}</li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
         </div>
     </body>
 </html>

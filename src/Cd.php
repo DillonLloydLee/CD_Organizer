@@ -1,5 +1,5 @@
 <?php
-    class CD
+    class Cd
     {
         private $title;
         private $artist;
@@ -16,7 +16,7 @@
 
         function setPrice($new_price)
         {
-            $this->price = $new_price
+            $this->price = $new_price;
         }
 
         function getPrice()

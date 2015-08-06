@@ -2,40 +2,28 @@
     require_once __DIR__."/../vendor/autoload.php";
     require_once __DIR__."/../src/Cd.php";
 
+    session_start();
+
+    $cds = array();
+    if (empty($_SESSION['list_of_cds'])) {
+        $_SESSION['list_of_cds'] = $cds;
+    }
+
     $app = new Silex\Application();
+    $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/../views'));
 
-    $app->get("/", function() {
-        $first_cd = new CD("Master of Reality", "Black Sabbath", "images/reality.jpg", 10.99);
-        $second_cd = new CD("Electric Ladyland", "Jimi Hendrix", "images/ladyland.jpg", 10.99);
-        $third_cd = new CD("Nevermind", "Nirvana", "images/nevermind.jpg", 10.99);
-        $fourth_cd = new CD("I don't get it", "Pork Lion", "images/porklion.jpg", 49.99);
-        $cds = array($first_cd, $second_cd, $third_cd, $fourth_cd);
+    //ROOT ROUTE
+    $app->get("/", function() use ($app) {
+        return $app['twig']->render('cd.html.twig', array ('cds' => Cd::getAll()));
 
-        $output = "";
-        foreach ($cds as $album) {
-            $output = $output . "<!DOCTYPE html>
-                <html>
-                <head>
-                    <title></title>
-                    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
-                </head>
-                <body>
-                    <div class='row'>
-                        <div class='col-md-6'>
-                            <img src=" . $album->getCoverArt() . ">
-                        </div>
-                        <div class='col-md-6'>
-                            <p>" . $album->getTitle() . "</p>
-                            <p>By " . $album->getArtist() . "</p>
-                            <p>$" . $album->getPrice() . "</p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-                ";
-        }
-        return $output;
+    });
 
+    $app->get('/new_cd', function() use ($app) {
+        return $app['twig']->render('new_cd.html.twig', array ('cds' => Cd::getAll()));
+    });
+
+    $app->get('/searchbyartist', function() use ($app) {
+        return $app['twig']->render('searchbyartist.html.twig', array ('cds' => Cd::getAll()));
     });
 
     return $app;

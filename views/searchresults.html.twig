@@ -1,0 +1,22 @@
+        foreach ($cds as $album) {
+            $output = $output . "<!DOCTYPE html>
+                <html>
+                <head>
+                    <title></title>
+                    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+                </head>
+                <body>
+                    <div class='row'>
+                        <div class='col-md-6'>
+                            <img src=" . $album->getCoverArt() . ">
+                        </div>
+                        <div class='col-md-6'>
+                            <p>" . $album->getTitle() . "</p>
+                            <p>By " . $album->getArtist() . "</p>
+                            <p>$" . $album->getPrice() . "</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+                ";
+        }
