@@ -26,6 +26,12 @@
         return $app['twig']->render('searchbyartist.html.twig', array ('cds' => Cd::getAll()));
     });
 
+    $app->post('/cd_confirm', function() use ($app) {
+        $cd = new Cd($_POST['artist'], $_POST['title'], $_POST['price']);
+        $cd->save();
+        return $app['twig']->render('cd_confirm.html.twig', array('newcd' => $cd));
+    });
+
     return $app;
 
 ?>
